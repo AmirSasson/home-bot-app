@@ -36,6 +36,7 @@ JoystickView = Backbone.View.extend({
         this.joyStickLoaded = false;
         this.backgroundLoaded = false;
         this.lastTouch = new Date().getTime();
+        this.lastUpdate = this.lastTouch;
         self = this;
         setTimeout(function () {
             self._retractJoystickForInactivity();
@@ -76,7 +77,7 @@ JoystickView = Backbone.View.extend({
         this.x = 0;
         this.y = 0;
         this.renderSprite();
-        self._triggerChange();
+        self._triggerChange(true);
     },
     move: function (evt) {
         if (this.state == INACTIVE) {
@@ -106,7 +107,7 @@ JoystickView = Backbone.View.extend({
         this._mutateToCartesian(x, y);
         this._triggerChange();
     },
-    _triggerChange: function (bounceTrigger) {
+    _triggerChange: function (forceTrigger) {
         var xPercent = this.x / this.radius;
         var yPercent = this.y / this.radius;
         if (Math.abs(xPercent) > 1.0) {
@@ -115,10 +116,9 @@ JoystickView = Backbone.View.extend({
         if (Math.abs(yPercent) > 1.0) {
             yPercent /= Math.abs(yPercent);
         }
-        if (bounceTrigger && (self.lastUpdate - new Date().getTime()) > BOUNCE_TRIGGER_MS) {
+        if (forceTrigger || (new Date().getTime() - self.lastUpdate ) > BOUNCE_TRIGGER_MS) {
             self.lastUpdate = new Date().getTime();
-            this.trigger("horizontalMove", xPercent);
-            this.trigger("verticalMove", yPercent);
+            this.trigger("move", {x: xPercent, y: yPercent});
         }
     },
     _mutateToCartesian: function (x, y) {

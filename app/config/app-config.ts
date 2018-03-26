@@ -14,7 +14,11 @@ config
         'AUTHORIZATION_TOKEN_SECRET',
         'LOG_LEVEL',
         'AUTH_ID_HEADER_NAME',
-        'RESTRICT_TO_USERS'
+        'RESTRICT_TO_USERS',
+        'MQTT_HOST',
+        'MQTT_USER',
+        'MQTT_PASSWORD',
+        'MQTT_PORT'
     ])
     // 3. Config file
     .file({ file: path.join(__dirname, '../app-config.json') })

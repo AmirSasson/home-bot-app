@@ -19,12 +19,20 @@ export class MqttService {
         if (host) {
             this.mqttClient = mqtt.connect(host,
                 {
+                    host: host,
                     username: config.get('MQTT_USER'),
                     password: config.get('MQTT_PASSWORD'),
                     port: config.get('MQTT_PORT'),
+                    protocol: 'mqtt',
+                    clean:true,
+                    // protocolVersion: 3,
+                    // protocolId: 'MQIsdp',
+                    clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8)
                 }
             );
-            this.mqttClient.on('connect', () => console.info("MQTT CONNECTED!"));
+            this.mqttClient.on('connect', () => {
+                console.warn("MQTT CONNECTED!");
+            });
         }
     }
     public async send(topic: Topics, message: object): Promise<any> {
