@@ -23,7 +23,6 @@ config
         PORT: 5000,
         DAAS_CORS_ORIGIN: '*',
         // Set secret keys
-        AUTHORIZATION_TOKEN_SECRET: 'secretsecretsecret',
         AUTH_ID_HEADER_NAME: 'X-MS-CLIENT-PRINCIPAL-NAME',
         RESTRICT_TO_USERS : '[]'
     });

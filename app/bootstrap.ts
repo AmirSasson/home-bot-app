@@ -23,6 +23,7 @@ server.setConfig((application) => {
         const user = <string><any>(req.get(config.get('AUTH_ID_HEADER_NAME')));
         if (restricted2users.length === 0 ||
             restricted2users.includes(user)) {
+                res.locals.userid = user;
                 next();
                 return;
         };
@@ -53,16 +54,16 @@ server.setConfig((application) => {
         };
     });
 
-    const corsOptions = {
-        origin: config.get('DAAS_CORS_ORIGIN'),
-        optionsSuccessStatus: 200
-    };
+    // const corsOptions = {
+    //     origin: config.get('DAAS_CORS_ORIGIN'),
+    //     optionsSuccessStatus: 200
+    // };
 
 
 
     application.use(bodyParser.urlencoded({ extended: true }));
     application.use(bodyParser.json());
-    application.use(cors(corsOptions));
+    //application.use(cors(corsOptions));
 
     application.use('/app', express.static('./public'));
     const sessionConfig = {

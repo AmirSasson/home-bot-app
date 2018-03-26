@@ -75,7 +75,6 @@ typings/
 test/report/
 
 test/**/*.js
-.vscode/settings.json
 .vs/
 test/integration/report/test-results.xml
 

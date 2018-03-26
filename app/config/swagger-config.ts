@@ -21,18 +21,18 @@ const swaggerDefinition = {
     ],
     definitions:
         {
-            'Value': {
+            'Coordinates': {
                 'type': 'object',
                 'properties': {
-                    'id': {
-                        'type': 'string'
+                    'x': {
+                        'type': 'number'
                     },
-                    'msg': {
-                        'type': 'string'
+                    'y': {
+                        'type': 'number'
                     }
                 },
                 'required': [
-                    'id'
+                    'x','y'
                 ]
             }
         }

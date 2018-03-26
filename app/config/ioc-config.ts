@@ -5,12 +5,12 @@ import { config } from './app-config';
 import { Environment } from '../common/environments';
 import { tagParameter } from 'inversify/dts/annotation/decorator_utils';
 import * as fs from 'fs';
-import { ValuesController } from '../controllers/values-controller';
-import { ExampleService } from '../services/example-service';
+import { MqttService } from '../services/mqtt-service';
+import { CommandsController } from '../controllers/commands-controller';
 
 // set up container
 export const container = new Container();
 
-container.bind<interfaces.Controller>(TYPE.Controller).to(ValuesController).whenTargetNamed('ValuesController');
+container.bind<interfaces.Controller>(TYPE.Controller).to(CommandsController).whenTargetNamed('CommandsController');
 
-container.bind<ExampleService>('ExampleService').to(ExampleService).inSingletonScope();
+container.bind<MqttService>('MqttService').to(MqttService).inSingletonScope();

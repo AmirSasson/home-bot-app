@@ -8,14 +8,15 @@ import { BaseController } from './base';
 import { transformAndValidate } from 'class-transformer-validator';
 import * as _ from 'lodash';
 import { logger } from '../common/logger';
-import { ExampleService } from '../services/example-service';
-import { Value } from '../contracts/value';
+import { Coordinates } from '../contracts/value';
+import { MqttService, Topics } from '../services/mqtt-service';
+import { SpeakCommand } from '../contracts/speak-command';
 
-@controller('/api/values')
-export class ValuesController extends BaseController {
+@controller('/api/commands')
+export class CommandsController extends BaseController {
 
     constructor(
-        @inject('ExampleService') private _service: ExampleService
+        @inject('MqttService') private _service: MqttService
     ) {
         super();
     }
@@ -52,52 +53,87 @@ export class ValuesController extends BaseController {
         response: Response) {
 
         // do validations of input
-        const sum = this._service.sum(Number(val1), Number(val2));
-        response.json({ sum: sum });
+        //const sum = this._service.sum(Number(val1), Number(val2));
+        response.json({ sum: 1 });
     }
 
     /**
      * @swagger
-     * /api/values/{id}:
+     * /api/commands/{id}:
      *   post:
      *     summary: Updates emails statues
      *     description: Will update winners status and audit status
      *     parameters:
-     *       - name: Value
+     *       - name: Coordinates
      *         in: body
      *         description: Personalization parameters
      *         schema:
-     *           $ref: '#/definitions/Value'
-     *       - name: token
-     *         in: query
-     *         required: false
-     *         type: string
+     *           $ref: '#/definitions/Coordinates'
      *     tags:
-     *       - Values
+     *       - Commands
      *     produces:
      *       - application/json
      *     responses:
-     *       201:
+     *       200:
      *          description: The request was received
      */
-    @httpPost('/:id')
-    public async postAuthorizeValues(
-        @requestParam('id') id: string,
+    @httpPost('/')
+    public async postNewCoordinates(
         request: Request,
         response: Response) {
 
         // do validations of input
-        let userInput: Value;
+        let coordinates: Coordinates;
         try {
-            userInput = await transformAndValidate(
-                Value,
+            coordinates = await transformAndValidate(
+                Coordinates,
                 request.body as object
             );
         } catch (errors) {
             this.badRequest(response, errors);
             return;
         }
-        this._service.print(userInput);
-        response.sendStatus(201);
+        await this._service.send(Topics.MOVE, coordinates);
+        response.sendStatus(200);
+    }
+
+      /**
+     * @swagger
+     * /api/commands/{id}:
+     *   post:
+     *     summary: Updates emails statues
+     *     description: Will update winners status and audit status
+     *     parameters:
+     *       - name: Coordinates
+     *         in: body
+     *         description: Personalization parameters
+     *         schema:
+     *           $ref: '#/definitions/Coordinates'
+     *     tags:
+     *       - Commands
+     *     produces:
+     *       - application/json
+     *     responses:
+     *       200:
+     *          description: The request was received
+     */
+    @httpPost('/speak')
+    public async postSpeak(
+        request: Request,
+        response: Response) {
+
+        // do validations of input
+        let speakCmd: SpeakCommand;
+        try {
+            speakCmd = await transformAndValidate(
+                SpeakCommand,
+                request.body as object
+            );
+        } catch (errors) {
+            this.badRequest(response, errors);
+            return;
+        }
+        await this._service.send(Topics.SPEAK, speakCmd);
+        response.sendStatus(200);
     }
 }
