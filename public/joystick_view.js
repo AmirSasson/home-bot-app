@@ -1,7 +1,7 @@
 
 var INACTIVE = 0;
 var ACTIVE = 1;
-var SECONDS_INACTIVE = 100;
+var SECONDS_INACTIVE = 30;
 var BOUNCE_TRIGGER_MS = 500;
 
 function loadSprite(src, callback) {
@@ -154,8 +154,6 @@ JoystickView = Backbone.View.extend({
         this.y = Math.floor(toKeep * Math.abs(this.y)) * ySign;
         this.x = 0;
         this.y = 0;
-        console.log("center joi");
-        self._triggerChange();
     },
     _traceNewValues: function () {
         var slope = this.y / this.x;
