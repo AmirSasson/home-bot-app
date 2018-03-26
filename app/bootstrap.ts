@@ -7,7 +7,7 @@ import { swaggerSpec } from './config/swagger-config';
 import * as cors from 'cors';
 import * as swaggerUi from 'swagger-ui-express';
 import { logger } from './common/logger';
-import { InversifyExpressServer } from 'inversify-express-utils';
+import { InversifyExpressServer, response } from 'inversify-express-utils';
 import { container } from './config/ioc-config';
 import { Environment } from './common/environments';
 
@@ -17,6 +17,19 @@ const server = new InversifyExpressServer(container);
 server.setConfig((application) => {
     // [START setup] ===
     // =============================================================================
+    application.use(function (req: express.Request, res: express.Response, next: express.NextFunction) {
+
+        const restricted2users: string[] = JSON.parse(config.get('RESTRICT_TO_USERS'));
+        const user = <string><any>(req.get(config.get('AUTH_ID_HEADER_NAME')));
+        if (restricted2users.length === 0 ||
+            restricted2users.includes(user)) {
+                next();
+                return;
+        };
+        console.error('invalid user tried to authenticate!',restricted2users,user);
+        res.sendStatus(403);
+    });
+
     application.use(function (req: express.Request, res: express.Response, next: express.NextFunction) {
         const start = process.hrtime();
         res.locals.requestId = uuid();

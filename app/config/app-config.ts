@@ -12,7 +12,9 @@ config
         'PORT',
         'APP_CORS_ORIGIN',
         'AUTHORIZATION_TOKEN_SECRET',
-        'LOG_LEVEL'
+        'LOG_LEVEL',
+        'AUTH_ID_HEADER_NAME',
+        'RESTRICT_TO_USERS'
     ])
     // 3. Config file
     .file({ file: path.join(__dirname, '../app-config.json') })
@@ -21,6 +23,8 @@ config
         PORT: 5000,
         DAAS_CORS_ORIGIN: '*',
         // Set secret keys
-        AUTHORIZATION_TOKEN_SECRET: 'secretsecretsecret'
+        AUTHORIZATION_TOKEN_SECRET: 'secretsecretsecret',
+        AUTH_ID_HEADER_NAME: 'X-MS-CLIENT-PRINCIPAL-NAME',
+        RESTRICT_TO_USERS : '[]'
     });
 
