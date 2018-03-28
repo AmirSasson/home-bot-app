@@ -148,6 +148,6 @@ export class CommandsController extends BaseController {
         const streamServer = config.get('VID_STREAM_SERVER_URL');
         const streamUrl = `${streamServer}/${id}`;
         await this._service.send(Topics.CAM, { action: 'start', stream_url: streamUrl });
-        response.status(200).send({ stream: streamUrl });
+        response.status(200).send({ stream: streamUrl.replace('http', 'ws') });
     }
 }
