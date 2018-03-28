@@ -41,8 +41,6 @@ $(document).ready(function () {
     var move = { speed_left: 0, speed_right: 0 };
     joystickView.bind("move", function (coor) {
         console.log(coor);
-        $("#yVal").html(coor.y);
-        $("#xVal").html(coor.x);
         let result = { speed_left: 1, speed_right: 1 };
         const MAX_JOYSTICK_RANGE = 1;
         let x = coor.x;
