@@ -49,8 +49,9 @@ $(document).ready(function () {
         x *= -1;
         let v = (MAX_JOYSTICK_RANGE - Math.abs(x)) * (y / MAX_JOYSTICK_RANGE) + y;
         let w = (MAX_JOYSTICK_RANGE - Math.abs(y)) * (x / MAX_JOYSTICK_RANGE) + x;
-        result.speed_right = (v + w) / 2
-        result.speed_left = (v - w) / 2;
+        result.speed_right = ((v + w) / 2).toFixed(2);
+        result.speed_left = ((v - w) / 2).toFixed(2);;
+        ;
         if (Math.abs(result.speed_right) < 0.3)
             result.speed_right = 0;
         if (Math.abs(result.speed_left) < 0.3)
@@ -58,7 +59,13 @@ $(document).ready(function () {
 
         //result = this.scale(result, MAX_JOYSTICK_RANGE);
         if (move.speed_left != result.speed_left || move.speed_right != move.speed_right) {
-            $.post('/api/commands', result).done(s => move = result);
+            $.ajax('/api/commands', {
+                data: JSON.stringify(result),
+                contentType: 'application/json',
+                type: 'POST'
+            })
+                .done(s => move = result);
+            //$.post('/api/commands', result).done(s => move = result);
 
         }
     });

@@ -8,12 +8,11 @@ export class Coordinates {
     /**
      * @property {number} speed_left speed for left motor
      */
-    @IsNumberString()
+
     speed_left: number;
 
     /**
      * @property {number} speed_right speed for right motor
      */
-    @IsNumberString()
     speed_right: number;
 }
