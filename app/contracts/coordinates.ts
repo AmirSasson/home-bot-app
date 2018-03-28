@@ -5,15 +5,15 @@ import { ArrayNotEmpty, IsDate, IsEnum, IsInt, IsNotEmpty, Min, IsUUID, IsEmail,
 
 
 export class Coordinates {
-  /**
-   * @property {number} x coordinates
-   */
-  @IsNumber()
-  x: number;
+    /**
+     * @property {number} speed_left speed for left motor
+     */
+    @IsNumber()
+    speed_left: number;
 
-  /**
-   * @property {number} y coordinates
-   */
-  @IsNumber()
-  y: number;
+    /**
+     * @property {number} speed_right speed for right motor
+     */
+    @IsNumber()
+    speed_right: number;
 }
