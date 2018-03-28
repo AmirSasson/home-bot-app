@@ -1,14 +1,15 @@
 import { injectable } from 'inversify';
 import { config } from '../config/app-config';
 import { logger } from '../common/logger';
-import { Coordinates } from '../contracts/value';
+import { Coordinates } from '../contracts/coordinates';
 import * as mqtt from 'mqtt';
 import { MqttClient } from 'mqtt';
 import { createWriteStream } from 'fs';
 
 export enum Topics {
     MOVE = "bot-move",
-    SPEAK = "bot-speak"
+    SPEAK = "bot-speak",
+    CAM = "cam-command"
 }
 
 @injectable()
@@ -24,7 +25,7 @@ export class MqttService {
                     password: config.get('MQTT_PASSWORD'),
                     port: config.get('MQTT_PORT'),
                     protocol: 'mqtt',
-                    clean:true,
+                    clean: true,
                     // protocolVersion: 3,
                     // protocolId: 'MQIsdp',
                     clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8)

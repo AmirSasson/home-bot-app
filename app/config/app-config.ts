@@ -18,7 +18,9 @@ config
         'MQTT_HOST',
         'MQTT_USER',
         'MQTT_PASSWORD',
-        'MQTT_PORT'
+        'MQTT_PORT',
+        'VID_STREAM_ID',
+        'VID_STREAM_SERVER_URL'
     ])
     // 3. Config file
     .file({ file: path.join(__dirname, '../app-config.json') })
@@ -28,6 +30,8 @@ config
         DAAS_CORS_ORIGIN: '*',
         // Set secret keys
         AUTH_ID_HEADER_NAME: 'X-MS-CLIENT-PRINCIPAL-NAME',
-        RESTRICT_TO_USERS : '[]'
+        RESTRICT_TO_USERS: '[]',
+        VID_STREAM_SERVER_URL: '',
+        VID_STREAM_ID: ''
     });
 

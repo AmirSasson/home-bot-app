@@ -8,9 +8,10 @@ import { BaseController } from './base';
 import { transformAndValidate } from 'class-transformer-validator';
 import * as _ from 'lodash';
 import { logger } from '../common/logger';
-import { Coordinates } from '../contracts/value';
+import { Coordinates } from '../contracts/coordinates';
 import { MqttService, Topics } from '../services/mqtt-service';
 import { SpeakCommand } from '../contracts/speak-command';
+import * as uuid from 'uuid/v4';
 
 @controller('/api/commands')
 export class CommandsController extends BaseController {
@@ -53,7 +54,7 @@ export class CommandsController extends BaseController {
         response: Response) {
 
         // do validations of input
-        //const sum = this._service.sum(Number(val1), Number(val2));
+        // const sum = this._service.sum(Number(val1), Number(val2));
         response.json({ sum: 1 });
     }
 
@@ -97,26 +98,26 @@ export class CommandsController extends BaseController {
         response.sendStatus(200);
     }
 
-      /**
-     * @swagger
-     * /api/commands/{id}:
-     *   post:
-     *     summary: Updates emails statues
-     *     description: Will update winners status and audit status
-     *     parameters:
-     *       - name: Coordinates
-     *         in: body
-     *         description: Personalization parameters
-     *         schema:
-     *           $ref: '#/definitions/Coordinates'
-     *     tags:
-     *       - Commands
-     *     produces:
-     *       - application/json
-     *     responses:
-     *       200:
-     *          description: The request was received
-     */
+    /**
+   * @swagger
+   * /api/commands/{id}:
+   *   post:
+   *     summary: Updates emails statues
+   *     description: Will update winners status and audit status
+   *     parameters:
+   *       - name: Coordinates
+   *         in: body
+   *         description: Personalization parameters
+   *         schema:
+   *           $ref: '#/definitions/Coordinates'
+   *     tags:
+   *       - Commands
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *          description: The request was received
+   */
     @httpPost('/speak')
     public async postSpeak(
         request: Request,
@@ -135,5 +136,18 @@ export class CommandsController extends BaseController {
         }
         await this._service.send(Topics.SPEAK, speakCmd);
         response.sendStatus(200);
+    }
+
+    @httpPost('/start-cam')
+    public async postStartCam(
+        request: Request,
+        response: Response) {
+
+        // do validations of input
+        const id = config.get('VID_STREAM_ID');
+        const streamServer = config.get('VID_STREAM_SERVER_URL');
+        const streamUrl = `${streamServer}/${id}`;
+        await this._service.send(Topics.CAM, { action: 'start', stream_url: streamUrl });
+        response.status(200).send({ stream: streamUrl });
     }
 }

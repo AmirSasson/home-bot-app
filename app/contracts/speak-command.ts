@@ -6,11 +6,17 @@ import { isString } from 'util';
 
 
 export class SpeakCommand {
-  /**
-   * @property {string} msg a string message to send the bot to say
-   */
-  @IsString()
-  @MinLength(2)
-  msg: string;
-  //...
+    /**
+     * @property {string} msg a string message to send the bot to say
+     */
+    @IsString()
+    @MinLength(2)
+    msg: string;
+
+    /**
+     * @property {string} by name of the person that sent this msg
+     */
+    @IsString()
+    @MinLength(2)
+    by: string;
 }
