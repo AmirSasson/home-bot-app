@@ -35,9 +35,13 @@
                         <i class="fa fa-eye"></i>
                     </button>
                 </div>
-                <div class="col-12">
-                    <canvas id="video-canvas" style="display:none"></canvas>
+                <div class="col-12" id="stream-canvas-container" style="display:none">
+                    <canvas id="video-canvas"></canvas>
+                    <button class="btn btn-light" id="stream-stop-btn" onclick="stopCam()" title="Stop stream">
+                        <i class="fa fa-stop-circle-o"></i>
+                    </button>
                 </div>
+
             </div>
             <div class="col-12">
                 <script type="text/html" id="joystick-view">

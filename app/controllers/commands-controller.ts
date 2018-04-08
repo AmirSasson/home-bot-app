@@ -150,4 +150,14 @@ export class CommandsController extends BaseController {
         await this._service.send(Topics.CAM, { action: 'start', stream_url: streamUrl });
         response.status(200).send({ stream: streamUrl.replace('http', 'ws') });
     }
+
+    @httpPost('/stop-cam')
+    public async postStopCam(
+        request: Request,
+        response: Response) {
+
+        // do validations of input
+        await this._service.send(Topics.CAM, { action: 'stop' });
+        response.sendStatus(200);
+    }
 }

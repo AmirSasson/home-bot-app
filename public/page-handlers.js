@@ -18,8 +18,16 @@ function connectVid() {
             console.log(`connecting to stream: [${stream}]`)
             var canvas = document.getElementById('video-canvas');
             $("#stream-start-btn").hide();
-            $(canvas).show();
+            $("#stream-canvas-container").show();
             var player = new JSMpeg.Player(stream, { canvas: canvas });
+        });
+}
+
+function stopCam() {
+    $.post('/api/commands/stop-cam')
+        .done(res => {
+            $("#stream-start-btn").show();
+            $("#stream-canvas-container").hide();
         });
 }
 
