@@ -50,12 +50,14 @@
             </div>
 
             <div id="joystickContent"> </div>
-            <div class="input-group">
-                <input type="text" class="form-control" id="say-text" name="say-text" placeholder="Say something.." aria-describedby="say-btn">
-                <button class="btn-secondary input-group-addon" id="say-btn" onclick="say()">
-                    <i class="fa fa-volume-up"></i>
-                </button>
-            </div>
+            <form id="speak-form">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="say-text" name="say-text" placeholder="Say something.." aria-describedby="say-btn">
+                    <button class="btn-secondary input-group-addon" id="say-btn" type="submit">
+                        <i class="fa fa-volume-up"></i>
+                    </button>
+                </div>
+            </form>
 
         </div>
 

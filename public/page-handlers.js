@@ -38,6 +38,11 @@ var say = function () {
 
 
 $(document).ready(function () {
+    $("#speak-form").submit(function (event) {
+        event.preventDefault();
+        say();
+    });
+
     var joystickView = new JoystickView(250, function (callbackView) {
         $("#joystickContent").append(callbackView.render().el);
         setTimeout(function () {
